@@ -1,0 +1,20 @@
+server:
+  port: 9005
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.56.17:3306/zyg_user?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    username: root
+    password: 123
+  thymeleaf:
+    cache: false
+  application:
+    name: zyg-user
+
+logging:
+  level:
+    com.zyg: debug
+
+feign:
+  hystrix:
+    enabled: true

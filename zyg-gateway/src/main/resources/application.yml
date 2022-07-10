@@ -1,0 +1,78 @@
+server:
+  port: 88
+spring:
+  application:
+    name: zyg-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: after-predicate
+          uri: http://www.baidu.com
+          predicates:
+            - After=2021-12-23T23:19:44.088+08:00[Asia/Shanghai]
+          order: 100
+
+
+
+
+#方案一：配置路径（path）映射
+#        - id: zyg-manager
+##          uri: http://localhost:9001
+#          uri: lb://zyg-manager
+#          predicates:
+#            - Path=/manager/**
+#
+#
+#        - id: zyg-user
+#          uri: lb://zyg-user
+#          predicates:
+#          - Path=/user/**
+#          前端manager
+        - id: zyg-manager
+          uri: lb://zyg-manager
+          predicates:
+            - Path=/manager/**
+
+#              前端 shoper
+        - id: zyg-shop
+          uri: lb://zyg-shop
+          predicates:
+            - Path=/shop/**
+#方案二：配置主机（host）映射：
+        - id: zyg-portal-host
+          uri: lb://zyg-manager
+          predicates:
+           - Host=portal.zeyigou.com  #(重要)
+
+        - id: zyg-search-host
+          uri: lb://zyg-search
+          predicates:
+           - Host=search.zeyigou.com  #(重要)
+
+        - id: zyg-user-host
+          uri: lb://zyg-user
+          predicates:
+            - Host=user.zeyigou.com  #(重要)
+#            - Header=myId,1001
+#            - Query=param,zelin
+#            - Cookie=cook,val
+          filters:
+#            - StripPrefix=1   #去掉请求地址后的一层路径(重要)
+#            - RewritePath=/red/user(?<segment>/?.*), /user$\{segment}  #路径重写(重要)
+#            - AddRequestHeader=myHeader, blue      这两个其实不会显示，也不影响。。。好像是下载的时候会有影响。。。
+#            - AddRequestParameter=red, blue
+
+#配置商家与运营商后台：
+        - id: zyg-manager-host
+          uri: http://localhost:8080
+          predicates:
+            - Host=manager.zeyigou.com
+          filters:
+            - PrefixPath=/renren-fast
+
+        - id: zyg-shop-host
+          uri: lb://renren-fast-shop
+          predicates:
+            - Host=shop.zeyigou.com
+          filters:
+            - PrefixPath=/renren-fast

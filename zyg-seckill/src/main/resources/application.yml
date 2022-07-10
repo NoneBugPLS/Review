@@ -1,0 +1,22 @@
+server:
+  port: 9008
+
+spring:
+  application:
+    name: zyg-seckill
+
+  redis:
+    host: 192.168.56.17
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.56.17:3306/zyg_seckill?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123
+
+  thymeleaf:
+    cache: true
+
+logging:
+  level:
+    com.zyg.seckill: debug
